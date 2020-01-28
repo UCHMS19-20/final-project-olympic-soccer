@@ -97,14 +97,14 @@ while True:
                     speed[0] = 5
         for t in range(poseidon_top, poseidon_bottom):
             if u == t:
-                if poseidon_left in range(ball_right - 3, ball_right + 3):
+                if poseidon_left in range(ball_right, ball_right + 40):
                     speed[0] = -5
-                if poseidon_right in range(ball_left - 3, ball_left + 3):
+                if poseidon_right in range(ball_left - 40, ball_left):
                     speed[0] = 5
     
     if ball_top == 0 or ball_bottom == 600:
         if ball_left >= 267 and ball_right <= 358:
-            ball_pos = [width/2, height/2]
+            ball_pos = [width/2 - 20, height/2 - 20]
             speed = [0,0]
 
     if ball_left <= 0 or ball_right >= 400:
