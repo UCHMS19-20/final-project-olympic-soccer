@@ -1,5 +1,6 @@
 import sys
 import pygame
+import time
 # initializes pygame
 pygame.init()
 # sets the width and height of the screen
@@ -17,6 +18,14 @@ WHITE = (255, 255, 255)
 score1 = 0
 # the initial score of poseidon
 score2 = 0
+# initializes the mixer module
+pygame.mixer.init()
+# imports whistle sound
+whistle = pygame.mixer.Sound("aud/Whistle.wav")
+# imports a Zeus line from God of War 3
+zeus_line = pygame.mixer.Sound("aud/Zeus.wav")
+# imports a Poseidon line from God of War 3
+poseidon_line = pygame.mixer.Sound("aud/Poseidon.wav")
 # imports soccer field image and resizes it
 soccer_field = pygame.image.load("img/soccer_field.png")
 soccer_field = pygame.transform.scale(soccer_field, (400,600))
@@ -41,25 +50,33 @@ poseidon = pygame.transform.scale(poseidon, (100,100))
 poseidon_pos = [width/2 - 50, height/4 - 50]
 # sets the speed of poseidon's movement
 poseidon_vel = [2.5,2.5]
+# imports an image of zeus' name
+zeus_win = pygame.image.load("img/zeus_win.png").convert_alpha()
+# imports and resizes an image of poseidon's name
+poseidon_win = pygame.image.load("img/poseidon_win.png").convert_alpha()
+poseidon_win = pygame.transform.scale(poseidon_win, (225,94))
+# imports and resizes an image of a trophy
+wins_logo = pygame.image.load("img/wins_logo.png").convert_alpha()
+wins_logo = pygame.transform.scale(wins_logo, (300, 225))
 # allows the players to hold down keys and keep registering inputs
 pygame.key.set_repeat(10)
 # continuous loop
 while True:
     # defines the coordinates of the rectangle around the ball 
-    ball_left = ball_pos[0]
-    ball_right = ball_pos[0] + 40
-    ball_top = ball_pos[1]
-    ball_bottom = ball_pos[1] + 40
+    ball_left = ball_pos[0] + 3
+    ball_right = ball_pos[0] + 37
+    ball_top = ball_pos[1] + 3
+    ball_bottom = ball_pos[1] + 37
     # defines the coordinates of the rectangle around zeus
     zeus_left = zeus_pos[0] + 3.5
     zeus_right = zeus_pos[0] + 96.5
-    zeus_top = zeus_pos[1] + 11
-    zeus_bottom = zeus_pos[1] + 89
+    zeus_top = zeus_pos[1] + 29
+    zeus_bottom = zeus_pos[1] + 81
     # defines the coordinates of the rectangle around poseidon
-    poseidon_left = poseidon_pos[0] + 3.5
-    poseidon_right = poseidon_pos[0] + 96.5
+    poseidon_left = poseidon_pos[0] + 11
+    poseidon_right = poseidon_pos[0] + 89
     poseidon_top = poseidon_pos[1] + 11
-    poseidon_bottom = poseidon_pos[1] + 89
+    poseidon_bottom = poseidon_pos[1] + 81
     # for multiple events pygame registers
     for event in pygame.event.get():
         # if the player quits, the code stops running
@@ -177,6 +194,9 @@ while True:
             # the ball goes back to its initial position at rest
             ball_pos = [width/2 - 20, height/2 - 20]
             speed = [0,0]
+            # plays the whistle sound and pauses game for 2 seconds
+            whistle.play()
+            time.sleep(2)
         # if the ball touches the bottom of the screen
         if ball_bottom >= 600:
             # poseidon scores
@@ -184,9 +204,9 @@ while True:
             # the ball goes back to its initial position at rest
             ball_pos = [width/2 - 20, height/2 - 20]
             speed = [0,0]
-
-# MAKE IT SO WHEN THE PLAYER SCORES AGAIN, THE FINAL ANIMATION AND TAKE OUT SPACES
-    
+            # plays the whistle sound and pauses game for 2 seconds
+            whistle.play()
+            time.sleep(2)
     # for the ball, the speed is added to the position for each frame in order to get the new position
     ball_pos[0] += speed[0]
     ball_pos[1] += speed[1]
@@ -195,6 +215,28 @@ while True:
     screen.blit(zeus, zeus_pos)
     screen.blit(poseidon, poseidon_pos)
     screen.blit(soccer_ball, ball_pos)
+    # if zeus reaches a score of 10
+    if score1 == 10:
+        # the game congratulates zeus with images
+        screen.blit(zeus_win, [87.5,75])
+        screen.blit(wins_logo, [50,150])
+        pygame.display.update()
+        # a cool Zeus line that was imported before is played
+        zeus_line.play()
+        time.sleep(10)
+        # the game is closed
+        sys.exit()
+    # if poseidon reaches a score of 10
+    if score2 == 10:
+        # the game congratulates poseidon with images, projects a cool line, and ends the game
+        screen.blit(poseidon_win, [87.5,56])
+        screen.blit(wins_logo, [50,150])
+        pygame.display.update()
+        # a cool Poseidon line that was imported before is played
+        poseidon_line.play()
+        time.sleep(10)
+        # the game is closed
+        sys.exit()
     # the font from before is used to make white text for zeus' score
     text = font.render(str(score1), True, WHITE)
     # the text is loaded onto a position on the screen (in between the upper goal posts)
