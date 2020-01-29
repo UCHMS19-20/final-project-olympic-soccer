@@ -1,3 +1,4 @@
+# imports necessary modules
 import sys
 import pygame
 import time
@@ -178,11 +179,11 @@ while True:
                     # the ball goes down
                     speed[1] = 5
     # if the ball hits the left or right of the screen
-    if ball_left == 0 or ball_right == 400:
+    if ball_left <= 0 or ball_right >= 400:
         # it goes the opposite way
         speed[0] *= -1
     # if the ball hits the top or bottom of the screen
-    if ball_top == 0 or ball_bottom == 600:
+    if ball_top <= 0 or ball_bottom >= 600:
         # it goes in the opposite direction
         speed[1] *= -1
     # if the ball is in between the goal posts
@@ -196,7 +197,6 @@ while True:
             speed = [0,0]
             # plays the whistle sound and pauses game for 2 seconds
             whistle.play()
-            time.sleep(2)
         # if the ball touches the bottom of the screen
         if ball_bottom >= 600:
             # poseidon scores
@@ -206,7 +206,6 @@ while True:
             speed = [0,0]
             # plays the whistle sound and pauses game for 2 seconds
             whistle.play()
-            time.sleep(2)
     # for the ball, the speed is added to the position for each frame in order to get the new position
     ball_pos[0] += speed[0]
     ball_pos[1] += speed[1]
@@ -218,8 +217,8 @@ while True:
     # if zeus reaches a score of 10
     if score1 == 10:
         # the game congratulates zeus with images
-        screen.blit(zeus_win, [87.5,75])
-        screen.blit(wins_logo, [50,150])
+        screen.blit(zeus_win, [87.5,225])
+        screen.blit(wins_logo, [50,300])
         pygame.display.update()
         # a cool Zeus line that was imported before is played
         zeus_line.play()
@@ -229,8 +228,8 @@ while True:
     # if poseidon reaches a score of 10
     if score2 == 10:
         # the game congratulates poseidon with images, projects a cool line, and ends the game
-        screen.blit(poseidon_win, [87.5,56])
-        screen.blit(wins_logo, [50,150])
+        screen.blit(poseidon_win, [87.5,175])
+        screen.blit(wins_logo, [50,300])
         pygame.display.update()
         # a cool Poseidon line that was imported before is played
         poseidon_line.play()
@@ -240,11 +239,11 @@ while True:
     # the font from before is used to make white text for zeus' score
     text = font.render(str(score1), True, WHITE)
     # the text is loaded onto a position on the screen (in between the upper goal posts)
-    screen.blit(text, [195, 8])
+    screen.blit(text, [195, 571])
     # the font from before is used to make white text for poseidon's score
     text = font.render(str(score2), True, WHITE)
     # the text is loaded onto a position on the screen (in between the lower goal posts)
-    screen.blit(text, [195, 571])
+    screen.blit(text, [195, 8])
     # the screen is refreshed at a rate of 60 frames per second
     pygame.display.update()
     clock.tick(FPS)
